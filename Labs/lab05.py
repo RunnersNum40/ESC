@@ -24,7 +24,7 @@ def print_matrix_dim(M):
 
     #Problem 4b
 def mult_M_v(M, v):
-    return [[*map(lambda n:n*v, row)] for row in M]
+    return [[n*v for n in row] for row in M]
 
     #Problem 4c
 def dot(x, y):
