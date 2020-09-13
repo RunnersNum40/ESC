@@ -25,3 +25,16 @@ def print_matrix_dim(M):
     #Problem 4b
 def mult_M_v(M, v):
     return [[*map(lambda n:n*v, row)] for row in M]
+
+    #Problem 4c
+def dot(x, y):
+    return sum([n*i for n, i in zip(x, y)])
+
+def mul(A, B):
+    hight = len(A)
+    new = [[None for c in range(hight)] for r in range(hight)]
+    for x in range(hight):
+        print(new)
+        for y in range(hight):
+            new[x][y] = dot(A[x], [row[y] for row in B])
+    return new
