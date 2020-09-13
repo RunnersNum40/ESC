@@ -1,6 +1,14 @@
-current_value = 0.0
-stored_number = 0.0
-previous_value = 0.0
+def initialize():
+	global current_value
+	global stored_number
+	global previous_value
+	current_value = 0.0
+	stored_number = 0.0
+	previous_value = 0.0
+
+def get_current_value():
+	global current_value
+	return current_value
 
 def save():
 	global previous_value
