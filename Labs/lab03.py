@@ -1,9 +1,9 @@
 #Problem 1
 import lab02
-if __name__ == 'main':
+if 'main' == 'main':
     lab02.initialize()
     lab02.add(45)
-    if lab02.current_value == 42:
+    if lab02.current_value == 45:
       print("Test 1 passed")
     else:
       print("Test 1 failed")

@@ -13,12 +13,13 @@ def simplify_fraction(n, m):
         fac1, fac2 = fac2, fac1%fac2
     print("{}/{}".format(n/fac1, m/fac1))
 
-from math import pi
+from math import pi, floor
 def pi_iterations(n):
-    goal = round(pi, n)
+    n = 10**n
+    goal = floor(pi*n)/n
     iterations = 0
     total=0.0
-    while round(4*total, n) != goal:
+    while floor(4*total*n)/n != goal:
         total += ((-1)**iterations)/(2*iterations+1)
         iterations += 1
 

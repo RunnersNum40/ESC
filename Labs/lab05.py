@@ -31,10 +31,10 @@ def dot(x, y):
     return sum([n*i for n, i in zip(x, y)])
 
 def mul(A, B):
-    hight = len(A)
-    new = [[None for c in range(hight)] for r in range(hight)]
-    for x in range(hight):
+    height = len(A)
+    new = [[None for c in range(height)] for r in range(height)]
+    for x in range(height):
         print(new)
-        for y in range(hight):
-            new[x][y] = dot(A[x], [row[y] for row in B])
+        for y in range(height):
+            new[x][y] = sum([n*i for n, i in zip(A[x], [row[y] for row in B])])
     return new

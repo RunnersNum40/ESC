@@ -57,6 +57,7 @@ def undo():
     current_value, previous_value = previous_value, current_value
 
 if __name__ == '__main__':
+    initialize()
     print("Welcome to the calculator program.")
     display_current_value() # 0
     add(5) # 5
