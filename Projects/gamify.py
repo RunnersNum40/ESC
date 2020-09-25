@@ -45,6 +45,7 @@ def perform_activity(activity, duration):
     global time_since_tiring
     global star
     global last_two_stars
+    global previous_activity
 
     if star == activity:
         hedons += min(10, duration)*3
@@ -97,6 +98,7 @@ def initialize():
     global star
     global last_two_stars
     global tired
+    global previous_activity
 
     hedons = 0
     health = 0
@@ -104,6 +106,7 @@ def initialize():
     star = None
     last_two_stars = [120, 120]
     tired = False
+    previous_activity = [None, 0]
 
 
 
