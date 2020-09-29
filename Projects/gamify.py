@@ -1,10 +1,11 @@
-activities = {"running": {"health": ((3, 180), 1), "hedons": ((2, 10), (-2,)), "is_tiring": True}, 
+activities = {"running": {"health": ((3, 180), (1,)), "hedons": ((2, 10), (-2,)), "is_tiring": True}, 
               "textbooks": {"health": ((2,),), "hedons": ((1, 20), (-1,)), "is_tiring": True}, 
               "resting": {"health": ((0,),), "hedons": ((0,),), "is_tiring": False}
               }
 
 
 def is_timed(item):
+    """Check if a stat item has a timed increment. item = (x,) or (x, y)"""
     try:
         item[1]
     except Exception:
@@ -28,13 +29,33 @@ def offer_star(activity):
     Assume activity is a string, one of "running","textbooks", or "resting"."""
     global last_two_stars
     global star
-    global tired
+    global bored
 
     if last_two_stars[0] < 120:
-        tired = True
+        bored = True
     else:
         star = activity
         last_two_stars = [last_two_stars[1], 0]
+
+def earnings(stats, duration, earlier, tired):
+    """Compute how many points are earned by doing an activity"""
+    gained = 0
+    remaining_time = duration+earlier
+    for stat in stats:
+        amount = stat[0] if time_since_tiring >= 120 or not tired else -2
+        time = min(remaining_time, stat[1]) if is_timed(stat) else remaining_time
+
+        if remaining_time > duration:
+            remaining_time -= time
+            time, earlier = time-min(earlier, time), earlier-min(earlier, time)
+        else:
+            remaining_time -= time
+
+        gained += amount*time
+
+        if remaining_time == 0: break
+
+    return gained
 
 
 def perform_activity(activity, duration):
@@ -47,42 +68,31 @@ def perform_activity(activity, duration):
     global last_two_stars
     global previous_activity
 
-    if star == activity:
+    #add three hedons each min for the first five mins with a star if the activities match
+    if star_can_be_taken(activity):
         hedons += min(10, duration)*3
     star = None
 
+    earlier = 0 if activity != previous_activity[0] else previous_activity[1]
+    previous_activity = [activity, duration]
     activity = activities[activity]
 
-    remaining_time = duration
-    for stat in activity["health"]:
-        amount = stat[0]
-        time = min(remaining_time, stat[1]) if is_timed(stat) else remaining_time
-        health += amount*time
+    health += earnings(activity["health"], duration, earlier, False)
+    hedons += earnings(activity["hedons"], duration, earlier, activity["is_tiring"])
 
-        remaining_time -= time
-        if remaining_time == 0: break
-
-    remaining_time = duration
-    for stat in activity["hedons"]:
-        amount = stat[0] if time_since_tiring >= 120 or not activity["is_tiring"] else -2
-        time = min(remaining_time, stat[1]) if is_timed(stat) else remaining_time
-        hedons += amount*time
-
-        remaining_time -= time
-        if remaining_time == 0: break
-
+    #resets or increments the tired counter
     if activity["is_tiring"]:
         time_since_tiring = 0
     else:
         time_since_tiring += duration
 
-    if not tired:
+    if not bored:
         last_two_stars = [x+duration for x in last_two_stars]
 
 
 def star_can_be_taken(activity):
     """Return True iff a star can be used to get more hedons if done with activity activity"""
-    return star == activity and not tired
+    return star == activity and not bored
 
 
 def most_fun_activity_minute():
@@ -97,7 +107,7 @@ def initialize():
     global time_since_tiring
     global star
     global last_two_stars
-    global tired
+    global bored
     global previous_activity
 
     hedons = 0
@@ -105,7 +115,7 @@ def initialize():
     time_since_tiring = 120
     star = None
     last_two_stars = [120, 120]
-    tired = False
+    bored = False
     previous_activity = [None, 0]
 
 
