@@ -9,15 +9,8 @@ if 'main' == 'main':
       print("Test 1 failed")
 
 #Problem 2
-def sums(f, n, total=0):
-    for i in range(n):
-        total += f(i)
-    return total
-
 def check_sum(n):
-    square = sums(lambda i: i, n)**2
-    cube = sums(lambda i: i**3, n)
-    return square == cube
+    return sum(i for i in range(n))**2 == sum(i**3 for i in range(n))
 
 def check_sums_up_to_n(N):
     return all(check_sum(n) for n in range(N+1))
