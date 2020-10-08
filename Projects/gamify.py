@@ -93,7 +93,7 @@ def perform_activity(activity, duration):
     star = None
 
     earlier = 0 if activity != previous_activity[0] else previous_activity[1]
-    previous_activity = [activity, duration]
+    previous_activity = [activity, duration+earlier]
     activity = activities[activity]
 
     health += earnings(activity["health"], duration, earlier, False)

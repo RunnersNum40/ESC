@@ -17,13 +17,11 @@ from math import pi, floor
 def pi_iterations(n):
     n = 10**n
     goal = floor(pi*n)/n
-    iterations = 0
-    total=0.0
+    iterations, total= 0, 0.0
     while floor(4*total*n)/n != goal:
         total += ((-1)**iterations)/(2*iterations+1)
         iterations += 1
 
-    print(4*total)
     return iterations
 
 for n in range(10):
