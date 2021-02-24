@@ -15,10 +15,8 @@ char *my_strcat(char *dest, const char *src) {
 
 //Q2
 int my_strcmp_rec(char str1[], char str2[]) {
-    if(*str1 && (*str1 == *str2)) {
-        return my_strcmp_rec(str1+1, str2+1);
-    }
-    return *(const unsigned char*)str1-*(const unsigned char*)str2;
+    if(*str1 && (*str1 == *str2)) return my_strcmp_rec(str1+1, str2+1);
+    return (int) *str1-*str2;
 }
 
 //Q3
